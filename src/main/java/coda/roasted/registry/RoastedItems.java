@@ -1,4 +1,4 @@
-package coda.roasted.init;
+package coda.roasted.registry;
 
 import coda.roasted.Roasted;
 import coda.roasted.items.MarshmallowOnAStickItem;
