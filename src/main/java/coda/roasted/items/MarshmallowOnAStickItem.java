@@ -127,4 +127,9 @@ public class MarshmallowOnAStickItem extends Item {
         double d1 = vec3.dot(vec31);
         return d1 > 1.0D - range / d0;
     }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged;
+    }
 }
