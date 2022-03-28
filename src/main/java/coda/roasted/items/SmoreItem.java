@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class SmoreItem extends Item {
+    public static final String ROASTEDNESS_NBT = "Roastedness";
     private final int duration;
     private final int amplifier;
 

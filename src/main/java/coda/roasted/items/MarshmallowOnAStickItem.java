@@ -41,7 +41,7 @@ public class MarshmallowOnAStickItem extends Item {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         int amplifier = 0;
         int duration = 100;
-        int roastedness = stack.getTag().getInt("Roastedness");
+        int roastedness = stack.getOrCreateTag().getInt("Roastedness");
 
         // Warm
         if (roastedness >= 5 && roastedness < 15) {
