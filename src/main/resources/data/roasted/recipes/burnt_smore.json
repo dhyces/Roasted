@@ -10,12 +10,14 @@
       "item": "minecraft:cookie"
     },
     "D": {
+      "type": "roasted:roasted",
       "item": "roasted:marshmallow_on_a_stick",
-      "roasted:Roastedness": 0.4
+      "roast_min": 20,
+      "roast_max": 29
     }
   },
   "result": {
-    "item": "roasted:perfect_smore",
+    "item": "roasted:burnt_smore",
     "count": 1
   }
 }

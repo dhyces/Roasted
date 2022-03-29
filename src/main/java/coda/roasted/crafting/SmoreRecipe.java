@@ -42,6 +42,8 @@ public class SmoreRecipe extends ShapedRecipe {
 
                 NonNullList<Ingredient> ingredients = recipe.getIngredients();
 
+
+
                 CompoundTag tag = stack.getOrCreateTag();
                 tag.putInt(SmoreItem.ROASTEDNESS_NBT, roastedness);
                 stack.setTag(tag);

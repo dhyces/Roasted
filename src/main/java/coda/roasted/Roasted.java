@@ -2,7 +2,10 @@ package coda.roasted;
 
 import coda.roasted.crafting.SmoreRecipe;
 import coda.roasted.registry.RoastedItems;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.NBTIngredient;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -22,8 +25,9 @@ public class Roasted {
 
         RoastedItems.ITEMS.register(bus);
 
-        bus.addGenericListener(RecipeSerializer.class, (RegistryEvent.Register<RecipeSerializer<?>> e) -> e.getRegistry().register(new SmoreRecipe.Serializer()));
+        //bus.addGenericListener(NBTIngredient.Serializer.class, (RegistryEvent.Register<RecipeSerializer<?>> e) -> CraftingHelper.register(new NBTIngredient.Serializer()));
 
+        bus.addListener(this::init);
         bus.addListener(this::registerClient);
     }
 

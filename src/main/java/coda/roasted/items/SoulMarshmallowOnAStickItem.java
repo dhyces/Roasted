@@ -58,7 +58,7 @@ public class SoulMarshmallowOnAStickItem extends Item {
             duration = 240;
         }
         // Charred
-        else if (roastedness >= 33 && roastedness < 50) {
+        else if (roastedness >= 30 && roastedness < 50) {
             amplifier = 0;
             duration = 160;
         }

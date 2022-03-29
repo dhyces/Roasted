@@ -59,7 +59,7 @@ public class MarshmallowOnAStickItem extends Item {
             duration = 120;
         }
         // Charred
-        else if (roastedness >= 33 && roastedness < 50) {
+        else if (roastedness >= 30 && roastedness < 50) {
             amplifier = 0; // technically not needed, but it is here so I don't go crazy :)
             duration = 80;
         }

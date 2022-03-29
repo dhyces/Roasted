@@ -10,8 +10,10 @@
       "item": "minecraft:cookie"
     },
     "D": {
+      "type": "roasted:roasted",
       "item": "roasted:marshmallow_on_a_stick",
-      "roasted:Roastedness": 0.0
+      "roast_min": 0,
+      "roast_max": 4
     }
   },
   "result": {
