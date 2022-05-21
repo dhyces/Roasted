@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.18.2-1.2.0'
+version = '1.18.2-1.2.1'
 group = 'coda.roasted' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'roasted'
 
@@ -62,7 +62,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run_server')
 
             // Recommended logging data for a userdev environment
             // The markers can be added/remove as needed separated by commas.
@@ -121,6 +121,10 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+
+    maven {
+        url "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
@@ -140,6 +144,8 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+    runtimeOnly fg.deobf("curse.maven:jei-238222:3773518")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
