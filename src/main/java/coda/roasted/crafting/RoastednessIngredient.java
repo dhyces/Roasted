@@ -83,8 +83,8 @@ public class RoastednessIngredient extends Ingredient {
         @Override
         public void write(FriendlyByteBuf buffer, RoastednessIngredient ingredient) {
             buffer.writeItem(ingredient.stack);
-            buffer.writeVarInt(ingredient.min);
-            buffer.writeVarInt(ingredient.max);
+            buffer.writeInt(ingredient.min);
+            buffer.writeInt(ingredient.max);
         }
     }
 }
