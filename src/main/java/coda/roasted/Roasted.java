@@ -1,6 +1,7 @@
 package coda.roasted;
 
 import coda.roasted.crafting.RoastednessIngredient;
+import coda.roasted.registry.RoastedBlocks;
 import coda.roasted.registry.RoastedItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -22,6 +23,7 @@ public class Roasted {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         RoastedItems.ITEMS.register(bus);
+        RoastedBlocks.BLOCKS.register(bus);
 
         bus.addListener(this::init);
         bus.addListener(this::registerClient);
