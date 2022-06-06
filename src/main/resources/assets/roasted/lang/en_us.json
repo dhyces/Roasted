@@ -1,4 +1,6 @@
 {
+  "itemGroup.roasted": "Roasted",
+
   "item.roasted.marshmallow": "Marshmallow",
   "item.roasted.marshmallow_on_a_stick": "Marshmallow on a Stick",
   "item.roasted.soul_marshmallow_on_a_stick": "Soul Marshmallow on a Stick",
@@ -8,6 +10,12 @@
   "item.roasted.perfect_smore": "Perfect S'more",
   "item.roasted.burnt_smore": "Burnt S'more",
   "item.roasted.charred_smore": "Charred S'more",
+
+  "block.roasted.pile_of_marshmallows": "Pile of Marshmallows",
+  "block.roasted.pile_of_warm_marshmallows": "Pile of Warm Marshmallows",
+  "block.roasted.pile_of_perfect_marshmallows": "Pile of Perfect Marshmallows",
+  "block.roasted.pile_of_burnt_marshmallows": "Pile of Burnt Marshmallows",
+  "block.roasted.pile_of_charred_marshmallows": "Pile of Charred Marshmallows",
 
   "roasted.roastedness.unroasted": "Unroasted",
   "roasted.roastedness.warm": "Warm",

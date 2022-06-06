@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "roasted:item/soul_marshmallow_on_a_stick_unroasted"
+    "layer0": "roasted:item/marshmallow_on_a_stick_unroasted"
   },
   "overrides": [
     {

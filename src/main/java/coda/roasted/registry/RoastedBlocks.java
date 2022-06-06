@@ -21,11 +21,11 @@ import java.util.function.Supplier;
 public class RoastedBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Roasted.MOD_ID);
 
-    public static final RegistryObject<Block> PILE_OF_MARSHMALLOWS = BLOCKS.register("pile_of_marshmallows", () -> new Block(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.NETHER_WART).strength(1.0F)));
-    public static final RegistryObject<Block> PILE_OF_WARM_MARSHMALLOWS = BLOCKS.register("pile_of_warm_marshmallows", () -> new Block(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.NETHER_WART).strength(1.0F)));
-    public static final RegistryObject<Block> PILE_OF_PERFECT_MARSHMALLOWS = BLOCKS.register("pile_of_perfect_marshmallows", () -> new Block(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.NETHER_WART).strength(1.0F)));
-    public static final RegistryObject<Block> PILE_OF_BURNT_MARSHMALLOWS = BLOCKS.register("pile_of_burnt_marshmallows", () -> new Block(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.NETHER_WART).strength(1.0F)));
-    public static final RegistryObject<Block> PILE_OF_CHARRED_MARSHMALLOWS = BLOCKS.register("pile_of_charred_marshmallows", () -> new CharredMarshmallowBlock(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.NETHER_WART).strength(1.0F)));
+    public static final RegistryObject<Block> PILE_OF_MARSHMALLOWS = register("pile_of_marshmallows", () -> new Block(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.FUNGUS).strength(1.0F)));
+    public static final RegistryObject<Block> PILE_OF_WARM_MARSHMALLOWS = register("pile_of_warm_marshmallows", () -> new Block(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.FUNGUS).strength(1.0F)));
+    public static final RegistryObject<Block> PILE_OF_PERFECT_MARSHMALLOWS = register("pile_of_perfect_marshmallows", () -> new Block(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.FUNGUS).strength(1.0F)));
+    public static final RegistryObject<Block> PILE_OF_BURNT_MARSHMALLOWS = register("pile_of_burnt_marshmallows", () -> new Block(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.FUNGUS).strength(1.0F)));
+    public static final RegistryObject<Block> PILE_OF_CHARRED_MARSHMALLOWS = register("pile_of_charred_marshmallows", () -> new CharredMarshmallowBlock(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.FUNGUS).strength(1.0F)));
 
 
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
