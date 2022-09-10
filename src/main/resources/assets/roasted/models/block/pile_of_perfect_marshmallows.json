@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "roasted:block/pile_of_perfect_marshmallows"
-  }
-}
