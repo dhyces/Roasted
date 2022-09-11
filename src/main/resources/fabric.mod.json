@@ -14,7 +14,7 @@
     "sources": "https://github.com/Coda1552/Roasted"
   },
 
-  "license": "All rights reserved",
+  "license": "Mozilla Public License Version 2.0",
   "icon": "assets/modid/icon.png",
 
   "environment": "*",
@@ -26,6 +26,12 @@
       "com.coda.roasted.RoastedClient"
     ]
   },
+
+  "mixins": [
+    "roasted.mixins.json"
+  ],
+
+  "accessWidener": "roasted.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.14.9",

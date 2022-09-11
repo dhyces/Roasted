@@ -3,6 +3,9 @@
   "minVersion": "0.8",
   "package": "com.coda.roasted.mixin",
   "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "IngredientMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
