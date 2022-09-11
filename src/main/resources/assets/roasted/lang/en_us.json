@@ -1,0 +1,30 @@
+{
+  "itemGroup.roasted": "Roasted",
+
+  "item.roasted.marshmallow": "Marshmallow",
+  "item.roasted.marshmallow_on_a_stick": "Marshmallow on a Stick",
+  "item.roasted.soul_marshmallow_on_a_stick": "Soul Marshmallow on a Stick",
+  "item.roasted.toasted_marshmallow_on_a_stick": "Toasted Marshmallow on a Stick",
+  "item.roasted.unroasted_smore": "Unroasted S'more",
+  "item.roasted.warm_smore": "Warm S'more",
+  "item.roasted.perfect_smore": "Perfect S'more",
+  "item.roasted.burnt_smore": "Burnt S'more",
+  "item.roasted.charred_smore": "Charred S'more",
+
+  "block.roasted.pile_of_marshmallows": "Pile of Marshmallows",
+  "block.roasted.pile_of_warm_marshmallows": "Pile of Warm Marshmallows",
+  "block.roasted.pile_of_perfect_marshmallows": "Pile of Perfect Marshmallows",
+  "block.roasted.pile_of_burnt_marshmallows": "Pile of Burnt Marshmallows",
+  "block.roasted.pile_of_charred_marshmallows": "Pile of Charred Marshmallows",
+
+  "roasted.roastedness.unroasted": "Unroasted",
+  "roasted.roastedness.warm": "Warm",
+  "roasted.roastedness.perfect": "Perfect",
+  "roasted.roastedness.burnt": "Burnt",
+  "roasted.roastedness.charred": "Charred",
+
+  "roasted.marshmallow.title": "Marshmallows",
+  "roasted.marshmallow.desc": "Use 8 sugar to craft some marshmallows",
+  "roasted.roasted_marshmallow.title": "Roasted to Perfection!",
+  "roasted.roasted_marshmallow.desc": "Roast a marshmallow on a stick over a campfire\nNote: Don't roast it too long!"
+}

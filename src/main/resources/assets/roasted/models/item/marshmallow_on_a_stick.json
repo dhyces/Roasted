@@ -1,0 +1,38 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "roasted:item/marshmallow_on_a_stick_unroasted"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "roasted:roastedness": 0.0
+      },
+      "model": "roasted:item/marshmallow_on_a_stick"
+    },
+    {
+      "predicate": {
+        "roasted:roastedness": 0.1
+      },
+      "model": "roasted:item/marshmallow_on_a_stick_warm"
+    },
+    {
+      "predicate": {
+        "roasted:roastedness": 0.3
+      },
+      "model": "roasted:item/marshmallow_on_a_stick_perfect"
+    },
+    {
+      "predicate": {
+        "roasted:roastedness": 0.4
+      },
+      "model": "roasted:item/marshmallow_on_a_stick_burnt"
+    },
+    {
+      "predicate": {
+        "roasted:roastedness": 0.6
+      },
+      "model": "roasted:item/marshmallow_on_a_stick_charred"
+    }
+  ]
+}

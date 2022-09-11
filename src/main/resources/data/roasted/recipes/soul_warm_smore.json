@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "D",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cookie"
+    },
+    "D": {
+      "type": "roasted:roasted",
+      "item": "roasted:soul_marshmallow_on_a_stick",
+      "roast_min": 5,
+      "roast_max": 14
+    }
+  },
+  "result": {
+    "item": "roasted:warm_smore",
+    "count": 1
+  }
+}
