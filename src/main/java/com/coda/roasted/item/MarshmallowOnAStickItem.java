@@ -73,25 +73,25 @@ public class MarshmallowOnAStickItem extends Item {
 
     protected EffectInfo getEffectInfo(ItemStack stack) {
         int roastedness = stack.getOrCreateTag().getInt(ROASTEDNESS_TAG);
-        // unroasted
+        // Unroasted
         if (roastedness < 5) {
             return new EffectInfo(0, 100 * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
         }
         // Warm
-        else if (roastedness >= 5 && roastedness < 15) {
+        else if (roastedness < 15) {
             return new EffectInfo(1, 200 * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
         }
         // Perfect
-        else if (roastedness >= 15 && roastedness < 20) {
+        else if (roastedness < 20) {
             return new EffectInfo(2, 400  * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
         }
         // Burnt
-        else if (roastedness >= 20 && roastedness < 30) {
+        else if (roastedness < 30) {
             return new EffectInfo(1, 120 * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
         }
         // Charred
         else {
-            return new EffectInfo(0, 160 * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
+            return new EffectInfo(0, 80 * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
         }
     }
 
