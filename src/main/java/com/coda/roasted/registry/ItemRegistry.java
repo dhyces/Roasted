@@ -18,10 +18,6 @@ public class ItemRegistry {
 
     public static void init() {}
 
-    public static void registerCampfireMutations() {
-        MarshmallowOnAStickItem.CAMPFIRE_MUTATE.put(Blocks.SOUL_CAMPFIRE, SOUL_MARSHMALLOW_STICK);
-    }
-
     public static final CreativeModeTab GROUP = FabricItemGroupBuilder.build(new ResourceLocation(Roasted.MODID, "roasted"), () -> new ItemStack(ItemRegistry.MARSHMALLOW_STICK));
 
     public static final Item MARSHMALLOW = register("marshmallow", new Item(makeBasicFoodSettings(foodBuilder().fast().nutrition(2).saturationMod(0.05F).build())));
