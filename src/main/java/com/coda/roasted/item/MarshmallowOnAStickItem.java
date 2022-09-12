@@ -1,12 +1,11 @@
 package com.coda.roasted.item;
 
-import com.coda.roasted.registry.ItemRegistry;
 import com.coda.roasted.recipe.Roaster;
+import com.coda.roasted.registry.ItemRegistry;
 import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -51,15 +50,15 @@ public class MarshmallowOnAStickItem extends Item {
         CompoundTag tag = stack.getOrCreateTag();
         int roastedness = tag.getInt(ROASTEDNESS_TAG);
         if (roastedness < 5) {
-            tooltipComponents.add(Component.translatable("roasted.roastedness.unroasted").withStyle(ChatFormatting.WHITE, ChatFormatting.ITALIC));
+            tooltipComponents.add(Component.translatable("roasted.roastedness.unroasted").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         } else if (roastedness < 15) {
-            tooltipComponents.add(Component.translatable("roasted.roastedness.warm").withStyle(Style.EMPTY.withColor(0xBD9479)).withStyle(ChatFormatting.ITALIC));
+            tooltipComponents.add(Component.translatable("roasted.roastedness.warm").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         } else if (roastedness < 20) {
-            tooltipComponents.add(Component.translatable("roasted.roastedness.perfect").withStyle(Style.EMPTY.withColor(0x935E3C)).withStyle(ChatFormatting.ITALIC));
+            tooltipComponents.add(Component.translatable("roasted.roastedness.perfect").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         } else if (roastedness < 30) {
-            tooltipComponents.add(Component.translatable("roasted.roastedness.burnt").withStyle(Style.EMPTY.withColor(0x574134)).withStyle(ChatFormatting.ITALIC));
+            tooltipComponents.add(Component.translatable("roasted.roastedness.burnt").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         } else if (roastedness <= 50) {
-            tooltipComponents.add(Component.translatable("roasted.roastedness.charred").withStyle(Style.EMPTY.withColor(0x454545)).withStyle(ChatFormatting.ITALIC));
+            tooltipComponents.add(Component.translatable("roasted.roastedness.charred").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         }
     }
 
@@ -83,7 +82,7 @@ public class MarshmallowOnAStickItem extends Item {
         }
         // Perfect
         else if (roastedness < 20) {
-            return new EffectInfo(2, 400  * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
+            return new EffectInfo(2, 400 * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
         }
         // Burnt
         else if (roastedness < 30) {
@@ -109,7 +108,7 @@ public class MarshmallowOnAStickItem extends Item {
             if (roastedness < 50 && level.random.nextFloat() > 0.75 && !result.getType().equals(HitResult.Type.MISS)) {
                 BlockState blockState = level.getBlockState(result.getBlockPos());
                 if (validRoastBlocks.isValid(blockState)) {
-                    tag.putInt(ROASTEDNESS_TAG, roastedness+1);
+                    tag.putInt(ROASTEDNESS_TAG, roastedness + 1);
                 }
                 if (CAMPFIRE_MUTATE.containsKey(blockState.getBlock())) {
                     ItemStack mutated = new ItemStack(CAMPFIRE_MUTATE.get(blockState.getBlock()));
@@ -129,16 +128,18 @@ public class MarshmallowOnAStickItem extends Item {
         float yaw = player.getXRot();
         float pitch = player.getYRot();
         Vec3 eyePosition = player.getEyePosition();
-        float h = Mth.cos(-pitch * ((float)Math.PI / 180) - (float)Math.PI);
-        float i = Mth.sin(-pitch * ((float)Math.PI / 180) - (float)Math.PI);
-        float j = -Mth.cos(-yaw * ((float)Math.PI / 180));
-        float k = Mth.sin(-yaw * ((float)Math.PI / 180));
+        float h = Mth.cos(-pitch * ((float) Math.PI / 180) - (float) Math.PI);
+        float i = Mth.sin(-pitch * ((float) Math.PI / 180) - (float) Math.PI);
+        float j = -Mth.cos(-yaw * ((float) Math.PI / 180));
+        float k = Mth.sin(-yaw * ((float) Math.PI / 180));
         float xDir = i * j;
         float yDir = k;
         float zDir = h * j;
-        Vec3 lookedPosition = eyePosition.add((double)xDir * range, (double)yDir * range, (double)zDir * range);
+        Vec3 lookedPosition = eyePosition.add((double) xDir * range, (double) yDir * range, (double) zDir * range);
         return level.clip(new ClipContext(eyePosition, lookedPosition, ClipContext.Block.OUTLINE, ClipContext.Fluid.SOURCE_ONLY, player));
     }
 
-    record EffectInfo(int amplifier, int duration) {};
+    record EffectInfo(int amplifier, int duration) {
+    }
+
 }
