@@ -4,6 +4,7 @@ import com.coda.roasted.recipe.Roaster;
 import com.coda.roasted.registry.ItemRegistry;
 import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class MarshmallowOnAStickItem extends Item {
 
@@ -102,11 +104,12 @@ public class MarshmallowOnAStickItem extends Item {
             return;
 
         if (entity instanceof Player player) {
-            BlockHitResult result = fromPOVWithRange(level, player, 2);
+            BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
             CompoundTag tag = stack.getOrCreateTag();
             int roastedness = tag.getInt(ROASTEDNESS_TAG);
+            Random rand = new Random();
 
-            if (roastedness < 50 && level.random.nextFloat() > 0.75 && !result.getType().equals(HitResult.Type.MISS)) {
+            if (roastedness < 50 && rand.nextFloat() > 0.75 && lookAt(player, result.getBlockPos(), 0.3)) {
                 BlockState blockState = level.getBlockState(result.getBlockPos());
                 if (validRoastBlocks.isValid(blockState)) {
                     tag.putInt(ROASTEDNESS_TAG, roastedness + 1);
@@ -125,19 +128,13 @@ public class MarshmallowOnAStickItem extends Item {
         return false;
     }
 
-    BlockHitResult fromPOVWithRange(Level level, Player player, double range) {
-        float yaw = player.getXRot();
-        float pitch = player.getYRot();
-        Vec3 eyePosition = player.getEyePosition();
-        float h = Mth.cos(-pitch * ((float) Math.PI / 180) - (float) Math.PI);
-        float i = Mth.sin(-pitch * ((float) Math.PI / 180) - (float) Math.PI);
-        float j = -Mth.cos(-yaw * ((float) Math.PI / 180));
-        float k = Mth.sin(-yaw * ((float) Math.PI / 180));
-        float xDir = i * j;
-        float yDir = k;
-        float zDir = h * j;
-        Vec3 lookedPosition = eyePosition.add((double) xDir * range, (double) yDir * range, (double) zDir * range);
-        return level.clip(new ClipContext(eyePosition, lookedPosition, ClipContext.Block.OUTLINE, ClipContext.Fluid.SOURCE_ONLY, player));
+    private boolean lookAt(Player player, BlockPos pos, double range) {
+        Vec3 viewVec = player.getViewVector(1.0F).normalize();
+        Vec3 distVec = new Vec3(pos.getX() - player.getX(), pos.getY() - player.getEyeY(), pos.getZ() - player.getZ());
+        double distLen = distVec.length();
+        distVec = distVec.normalize();
+        double d1 = viewVec.dot(distVec);
+        return d1 > 1.0D - range / distLen;
     }
 
     record EffectInfo(int amplifier, int duration) {}
