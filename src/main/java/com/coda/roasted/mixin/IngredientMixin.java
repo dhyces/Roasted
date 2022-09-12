@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.stream.Stream;
 
+// TODO: would like to simplify this by using a more compat friendly library. This works though.
 @Mixin(Ingredient.class)
 public class IngredientMixin {
 

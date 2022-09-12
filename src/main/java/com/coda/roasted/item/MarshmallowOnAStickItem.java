@@ -32,7 +32,7 @@ public class MarshmallowOnAStickItem extends Item {
 
     public static final Map<Block, Item> CAMPFIRE_MUTATE = Maps.newHashMap();
     public static final String ROASTEDNESS_TAG = "Roastedness";
-    final Roaster validRoastBlocks;
+    protected final Roaster validRoastBlocks;
 
     public MarshmallowOnAStickItem(Properties properties, Roaster validRoasters) {
         super(properties);
@@ -70,6 +70,7 @@ public class MarshmallowOnAStickItem extends Item {
         return livingEntity instanceof Player player && !player.getAbilities().instabuild ? getCraftingRemainingItem().getDefaultInstance().copy() : super.finishUsingItem(stack, level, livingEntity);
     }
 
+    //TODO: make more extensible
     protected EffectInfo getEffectInfo(ItemStack stack) {
         int roastedness = stack.getOrCreateTag().getInt(ROASTEDNESS_TAG);
         // Unroasted
@@ -139,7 +140,6 @@ public class MarshmallowOnAStickItem extends Item {
         return level.clip(new ClipContext(eyePosition, lookedPosition, ClipContext.Block.OUTLINE, ClipContext.Fluid.SOURCE_ONLY, player));
     }
 
-    record EffectInfo(int amplifier, int duration) {
-    }
+    record EffectInfo(int amplifier, int duration) {}
 
 }
