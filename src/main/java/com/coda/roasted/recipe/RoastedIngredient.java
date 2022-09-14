@@ -35,7 +35,7 @@ public class RoastedIngredient extends Ingredient {
 
     private boolean isValidRoastedness(ItemStack stack) {
         if (!stack.hasTag())
-            return true;
+            return minRoast == 0;
         int roastedness = stack.getTag().getInt(MarshmallowOnAStickItem.ROASTEDNESS_TAG);
         return roastedness >= minRoast && roastedness < maxRoast;
     }

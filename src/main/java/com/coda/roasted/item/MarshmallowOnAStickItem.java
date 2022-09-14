@@ -107,9 +107,8 @@ public class MarshmallowOnAStickItem extends Item {
             BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
             CompoundTag tag = stack.getOrCreateTag();
             int roastedness = tag.getInt(ROASTEDNESS_TAG);
-            Random rand = new Random();
 
-            if (roastedness < 50 && rand.nextFloat() > 0.75 && lookAt(player, result.getBlockPos(), 0.3)) {
+            if (!level.isClientSide() && roastedness < 50 && level.random.nextFloat() > 0.75 && lookAt(player, result.getBlockPos(), 0.03, 2)) {
                 BlockState blockState = level.getBlockState(result.getBlockPos());
                 if (validRoastBlocks.isValid(blockState)) {
                     tag.putInt(ROASTEDNESS_TAG, roastedness + 1);
@@ -128,13 +127,13 @@ public class MarshmallowOnAStickItem extends Item {
         return false;
     }
 
-    private boolean lookAt(Player player, BlockPos pos, double range) {
+    private boolean lookAt(Player player, BlockPos pos, double radius, double range) {
         Vec3 viewVec = player.getViewVector(1.0F).normalize();
-        Vec3 distVec = new Vec3(pos.getX() - player.getX(), pos.getY() - player.getEyeY(), pos.getZ() - player.getZ());
+        Vec3 distVec = new Vec3((pos.getX() + 0.5) - player.getX(), (pos.getY() + 0.4375) - player.getEyeY(), (pos.getZ() + 0.5) - player.getZ());
         double distLen = distVec.length();
         distVec = distVec.normalize();
         double d1 = viewVec.dot(distVec);
-        return d1 > 1.0D - range / distLen;
+        return d1 > 1.0D - radius / distLen && distLen <= range;
     }
 
     record EffectInfo(int amplifier, int duration) {}
