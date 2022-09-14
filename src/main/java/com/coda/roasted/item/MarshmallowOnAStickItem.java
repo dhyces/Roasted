@@ -5,9 +5,7 @@ import com.coda.roasted.registry.ItemRegistry;
 import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -22,13 +20,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class MarshmallowOnAStickItem extends Item {
 
@@ -49,8 +45,7 @@ public class MarshmallowOnAStickItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
-        CompoundTag tag = stack.getOrCreateTag();
-        int roastedness = tag.getInt(ROASTEDNESS_TAG);
+        int roastedness = stack.hasTag() ? stack.getTag().getInt(ROASTEDNESS_TAG) : 0;
         if (roastedness < 5) {
             tooltipComponents.add(Component.translatable("roasted.roastedness.unroasted").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         } else if (roastedness < 15) {
@@ -74,7 +69,7 @@ public class MarshmallowOnAStickItem extends Item {
 
     //TODO: make more extensible
     protected EffectInfo getEffectInfo(ItemStack stack) {
-        int roastedness = stack.getOrCreateTag().getInt(ROASTEDNESS_TAG);
+        int roastedness = stack.hasTag() ? stack.getTag().getInt(ROASTEDNESS_TAG) : 0;
         // Unroasted
         if (roastedness < 5) {
             return new EffectInfo(0, 100 * (stack.is(ItemRegistry.SOUL_MARSHMALLOW_STICK) ? 2 : 1));
@@ -105,17 +100,18 @@ public class MarshmallowOnAStickItem extends Item {
 
         if (entity instanceof Player player) {
             BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
-            CompoundTag tag = stack.getOrCreateTag();
-            int roastedness = tag.getInt(ROASTEDNESS_TAG);
+            int roastedness = stack.hasTag() ? stack.getTag().getInt(ROASTEDNESS_TAG) : 0;
 
             if (!level.isClientSide() && roastedness < 50 && level.random.nextFloat() > 0.75 && lookAt(player, result.getBlockPos(), 0.03, 2)) {
                 BlockState blockState = level.getBlockState(result.getBlockPos());
                 if (validRoastBlocks.isValid(blockState)) {
-                    tag.putInt(ROASTEDNESS_TAG, roastedness + 1);
+                    stack.getOrCreateTag().putInt(ROASTEDNESS_TAG, roastedness + 1);
                 }
                 if (CAMPFIRE_MUTATE.containsKey(blockState.getBlock())) {
                     ItemStack mutated = new ItemStack(CAMPFIRE_MUTATE.get(blockState.getBlock()));
-                    mutated.setTag(tag);
+                    if (stack.hasTag()) {
+                        mutated.setTag(stack.getTag());
+                    }
                     player.getSlot(slotId).set(mutated);
                 }
             }
