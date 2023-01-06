@@ -3,9 +3,11 @@ package com.coda.roasted.registry;
 import com.coda.roasted.Roasted;
 import com.coda.roasted.item.MarshmallowOnAStickItem;
 import com.coda.roasted.recipe.Roaster;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,11 +16,16 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ItemRegistry {
+
+    private static final Map<ResourceLocation, Item> ITEMS = new HashMap<>();
 
     public static void init() {}
 
-    public static final CreativeModeTab GROUP = FabricItemGroupBuilder.build(new ResourceLocation(Roasted.MODID, "roasted"), () -> new ItemStack(ItemRegistry.MARSHMALLOW_STICK));
+    public static final CreativeModeTab GROUP = FabricItemGroup.builder(new ResourceLocation(Roasted.MODID, "roasted")).icon(() -> new ItemStack(ItemRegistry.MARSHMALLOW_STICK)).build();
 
     public static final Item MARSHMALLOW = register("marshmallow", new Item(makeBasicFoodSettings(foodBuilder().fast().nutrition(2).saturationMod(0.05F).build())));
     public static final Item MARSHMALLOW_STICK = register("marshmallow_on_a_stick", makeMarshmallowOnAStick(3, .15F, Roaster.of(BlockTags.CAMPFIRES)));
@@ -30,18 +37,22 @@ public class ItemRegistry {
     public static final Item BURNT_SMORE = register("burnt_smore", makeSmore(1, 120));
     public static final Item CHARRED_SMORE = register("charred_smore", makeSmore(0, 80));
 
-    public static final BlockItem MARSHMALLOW_PILE = register("pile_of_marshmallows", new BlockItem(BlockRegistry.MARSHMALLOW_PILE, new Item.Properties().tab(GROUP)));
-    public static final BlockItem WARM_MARSHMALLOW_PILE = register("pile_of_warm_marshmallows", new BlockItem(BlockRegistry.WARM_MARSHMALLOW_PILE, new Item.Properties().tab(GROUP)));
-    public static final BlockItem PERFECT_MARSHMALLOW_PILE = register("pile_of_perfect_marshmallows", new BlockItem(BlockRegistry.PERFECT_MARSHMALLOW_PILE, new Item.Properties().tab(GROUP)));
-    public static final BlockItem BURNT_MARSHMALLOW_PILE = register("pile_of_burnt_marshmallows", new BlockItem(BlockRegistry.BURNT_MARSHMALLOW_PILE, new Item.Properties().tab(GROUP)));
-    public static final BlockItem CHARRED_MARSHMALLOW_PILE = register("pile_of_charred_marshmallows", new BlockItem(BlockRegistry.CHARRED_MARSHMALLOW_PILE, new Item.Properties().tab(GROUP)));
+    public static final BlockItem MARSHMALLOW_PILE = register("pile_of_marshmallows", new BlockItem(BlockRegistry.MARSHMALLOW_PILE, new Item.Properties()));
+    public static final BlockItem WARM_MARSHMALLOW_PILE = register("pile_of_warm_marshmallows", new BlockItem(BlockRegistry.WARM_MARSHMALLOW_PILE, new Item.Properties()));
+    public static final BlockItem PERFECT_MARSHMALLOW_PILE = register("pile_of_perfect_marshmallows", new BlockItem(BlockRegistry.PERFECT_MARSHMALLOW_PILE, new Item.Properties()));
+    public static final BlockItem BURNT_MARSHMALLOW_PILE = register("pile_of_burnt_marshmallows", new BlockItem(BlockRegistry.BURNT_MARSHMALLOW_PILE, new Item.Properties()));
+    public static final BlockItem CHARRED_MARSHMALLOW_PILE = register("pile_of_charred_marshmallows", new BlockItem(BlockRegistry.CHARRED_MARSHMALLOW_PILE, new Item.Properties()));
+
+    public static void addToTab(FabricItemGroupEntries entries) {
+        ITEMS.forEach((location, item) -> entries.accept(item));
+    }
 
     static FoodProperties.Builder foodBuilder() {
         return new FoodProperties.Builder();
     }
 
     static Item.Properties makeBasicFoodSettings(FoodProperties foodProperties) {
-        return new FabricItemSettings().tab(GROUP).food(foodProperties);
+        return new FabricItemSettings().food(foodProperties);
     }
 
     static Item makeSmore(int amplifier, int duration) {
@@ -49,7 +60,7 @@ public class ItemRegistry {
         var digSpeed = new MobEffectInstance(MobEffects.DIG_SPEED, duration, Math.max(amplifier - 1, 0));
         var foodProperties = foodBuilder().alwaysEat().fast();
         foodProperties.nutrition(7).saturationMod(0.5F);
-        foodProperties.effect(movementSpeed, 100).effect(digSpeed, 100);
+        foodProperties.effect(movementSpeed, 1).effect(digSpeed, 1);
         return new Item(makeBasicFoodSettings(foodProperties.build()));
     }
 
@@ -60,6 +71,9 @@ public class ItemRegistry {
     }
 
     static <T extends Item> T register(String id, T item) {
-        return Registry.register(Registry.ITEM, new ResourceLocation(Roasted.MODID, id), item);
+        var key = new ResourceLocation(Roasted.MODID, id);
+        var registered = Registry.register(BuiltInRegistries.ITEM, key, item);
+        ITEMS.put(key, registered);
+        return registered;
     }
 }

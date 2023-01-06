@@ -3,6 +3,7 @@ package com.coda.roasted.registry;
 import com.coda.roasted.Roasted;
 import com.coda.roasted.block.CharredMarshmallowBlock;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -20,6 +21,6 @@ public class BlockRegistry {
     public static final Block CHARRED_MARSHMALLOW_PILE = register("pile_of_charred_marshmallows", new CharredMarshmallowBlock(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.FUNGUS).strength(1.0F)));
 
     static Block register(String id, Block block) {
-        return Registry.register(Registry.BLOCK, new ResourceLocation(Roasted.MODID, id), block);
+        return Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(Roasted.MODID, id), block);
     }
 }
