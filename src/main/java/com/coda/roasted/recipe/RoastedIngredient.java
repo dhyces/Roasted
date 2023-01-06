@@ -18,6 +18,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -43,6 +45,14 @@ public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) impl
 
     private static Either<ItemStack, Item> stackToEither(ItemStack itemStack) {
         return itemStack.getCount() > 1 || itemStack.hasTag() ? Either.left(itemStack) : Either.right(itemStack.getItem());
+    }
+
+    public static Ingredient createVanilla(ItemStack item, int minRoast, int maxRoast) {
+        return new RoastedIngredient(item, minRoast, maxRoast).toVanilla();
+    }
+
+    public static Ingredient createVanilla(ItemLike item, int minRoast, int maxRoast) {
+        return new RoastedIngredient(new ItemStack(item), minRoast, maxRoast).toVanilla();
     }
 
     @Override

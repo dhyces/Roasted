@@ -9,7 +9,6 @@ import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.*;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -63,7 +62,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .pattern("M")
                 .pattern("C")
                 .define('C', Items.COOKIE)
-                .define('M', new RoastedIngredient(new ItemStack(marshmallowStick), minRoast, maxRoast).toVanilla())
+                .define('M', RoastedIngredient.createVanilla(marshmallowStick, minRoast, maxRoast))
                 .group("roasted:smores")
                 .unlockedBy("has_marshmallow_on_a_stick", minRoastTrigger(marshmallowStick, minRoast))
                 .save(exporter, BuiltInRegistries.ITEM.getKey(result.asItem()) + "_from_" + BuiltInRegistries.ITEM.getKey(marshmallowStick.asItem()).getPath());
