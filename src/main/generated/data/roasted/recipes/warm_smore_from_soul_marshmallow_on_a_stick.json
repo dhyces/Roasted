@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "roasted:smores",
+  "key": {
+    "C": {
+      "item": "minecraft:cookie"
+    },
+    "M": {
+      "fabric:type": "roasted:roasted",
+      "item": "roasted:soul_marshmallow_on_a_stick",
+      "max_roast": 15,
+      "min_roast": 5
+    }
+  },
+  "pattern": [
+    "C",
+    "M",
+    "C"
+  ],
+  "result": {
+    "item": "roasted:warm_smore"
+  }
+}

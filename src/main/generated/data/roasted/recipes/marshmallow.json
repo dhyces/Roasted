@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "# #",
-    "###"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "item": "minecraft:sugar"
     }
   },
+  "pattern": [
+    "###",
+    "# #",
+    "###"
+  ],
   "result": {
-    "item": "roasted:marshmallow",
-    "count": 4
+    "item": "roasted:marshmallow"
   }
 }

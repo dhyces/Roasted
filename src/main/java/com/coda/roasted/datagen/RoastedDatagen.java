@@ -7,6 +7,8 @@ public class RoastedDatagen implements DataGeneratorEntrypoint {
 
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-        fabricDataGenerator.addProvider(TagDatagen::new);
+        var pack = fabricDataGenerator.createPack();
+        pack.addProvider(TagProvider::new);
+        pack.addProvider(RecipeProvider::new);
     }
 }
