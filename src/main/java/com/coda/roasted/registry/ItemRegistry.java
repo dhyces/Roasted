@@ -44,7 +44,22 @@ public class ItemRegistry {
     public static final BlockItem CHARRED_MARSHMALLOW_PILE = register("pile_of_charred_marshmallows", new BlockItem(BlockRegistry.CHARRED_MARSHMALLOW_PILE, new Item.Properties()));
 
     public static void addToTab(FabricItemGroupEntries entries) {
-        ITEMS.forEach((location, item) -> entries.accept(item));
+        entries.accept(MARSHMALLOW);
+
+        entries.accept(MARSHMALLOW_STICK);
+        entries.accept(SOUL_MARSHMALLOW_STICK);
+
+        entries.accept(UNROASTED_SMORE);
+        entries.accept(WARM_SMORE);
+        entries.accept(PERFECT_SMORE);
+        entries.accept(BURNT_SMORE);
+        entries.accept(CHARRED_SMORE);
+        
+        entries.accept(MARSHMALLOW_PILE);
+        entries.accept(WARM_MARSHMALLOW_PILE);
+        entries.accept(PERFECT_MARSHMALLOW_PILE);
+        entries.accept(BURNT_MARSHMALLOW_PILE);
+        entries.accept(CHARRED_MARSHMALLOW_PILE);
     }
 
     static FoodProperties.Builder foodBuilder() {
