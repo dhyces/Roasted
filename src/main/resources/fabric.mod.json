@@ -7,7 +7,7 @@
   "description": "Roast your marshmallows to perfection!",
   "authors": [
     "Coda",
-    "Dhyces"
+    "Dhyces (Fabric)"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/roasted",
@@ -37,9 +37,9 @@
   "accessWidener": "roasted.accesswidener",
 
   "depends": {
-    "fabricloader": ">=0.14.9",
-    "fabric-api": "*",
-    "minecraft": "~1.19",
+    "fabricloader": ">=0.14.12",
+    "fabric-api": ">=0.72.0",
+    "minecraft": "1.19.3",
     "java": ">=17"
   }
 }
