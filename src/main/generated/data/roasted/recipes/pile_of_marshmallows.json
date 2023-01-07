@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "roasted:marshmallow_pile",
+  "key": {
+    "#": {
+      "item": "roasted:marshmallow"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "count": 4,
+    "item": "roasted:pile_of_marshmallows"
+  }
+}

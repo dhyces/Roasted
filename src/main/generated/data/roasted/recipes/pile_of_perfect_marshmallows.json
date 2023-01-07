@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "group": "roasted:marshmallow_pile",
+  "ingredient": {
+    "item": "roasted:pile_of_warm_marshmallows"
+  },
+  "result": "roasted:pile_of_perfect_marshmallows"
+}

@@ -49,11 +49,26 @@ public class RecipeProvider extends FabricRecipeProvider {
         smoreRecipe(ItemRegistry.BURNT_SMORE, ItemRegistry.SOUL_MARSHMALLOW_STICK, 20, 30, exporter);
         smoreRecipe(ItemRegistry.CHARRED_SMORE, ItemRegistry.SOUL_MARSHMALLOW_STICK, 30, 50, exporter);
 
-        cutBuilder(RecipeCategory.BUILDING_BLOCKS, ItemRegistry.MARSHMALLOW_PILE, Ingredient.of(ItemRegistry.MARSHMALLOW));
-        campfireCooking(Ingredient.of(ItemRegistry.MARSHMALLOW_PILE), RecipeCategory.BUILDING_BLOCKS, ItemRegistry.WARM_MARSHMALLOW_PILE, 0.1f, 100);
-        campfireCooking(Ingredient.of(ItemRegistry.WARM_MARSHMALLOW_PILE), RecipeCategory.BUILDING_BLOCKS, ItemRegistry.PERFECT_MARSHMALLOW_PILE, 0.1f, 100);
-        campfireCooking(Ingredient.of(ItemRegistry.PERFECT_MARSHMALLOW_PILE), RecipeCategory.BUILDING_BLOCKS, ItemRegistry.BURNT_MARSHMALLOW_PILE, 0.1f, 100);
-        campfireCooking(Ingredient.of(ItemRegistry.BURNT_MARSHMALLOW_PILE), RecipeCategory.BUILDING_BLOCKS, ItemRegistry.CHARRED_MARSHMALLOW_PILE, 0.1f, 100);
+        cutBuilder(RecipeCategory.BUILDING_BLOCKS, ItemRegistry.MARSHMALLOW_PILE, Ingredient.of(ItemRegistry.MARSHMALLOW))
+                .group("roasted:marshmallow_pile")
+                .unlockedBy("has_marshmallow", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.MARSHMALLOW))
+                .save(exporter);
+        campfireCooking(Ingredient.of(ItemRegistry.MARSHMALLOW_PILE), RecipeCategory.BUILDING_BLOCKS, ItemRegistry.WARM_MARSHMALLOW_PILE, 0.1f, 100)
+                .group("roasted:marshmallow_pile")
+                .unlockedBy("has_marshmallow", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.MARSHMALLOW))
+                .save(exporter);
+        campfireCooking(Ingredient.of(ItemRegistry.WARM_MARSHMALLOW_PILE), RecipeCategory.BUILDING_BLOCKS, ItemRegistry.PERFECT_MARSHMALLOW_PILE, 0.1f, 100)
+                .group("roasted:marshmallow_pile")
+                .unlockedBy("has_marshmallow", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.MARSHMALLOW))
+                .save(exporter);
+        campfireCooking(Ingredient.of(ItemRegistry.PERFECT_MARSHMALLOW_PILE), RecipeCategory.BUILDING_BLOCKS, ItemRegistry.BURNT_MARSHMALLOW_PILE, 0.1f, 100)
+                .group("roasted:marshmallow_pile")
+                .unlockedBy("has_marshmallow", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.MARSHMALLOW))
+                .save(exporter);
+        campfireCooking(Ingredient.of(ItemRegistry.BURNT_MARSHMALLOW_PILE), RecipeCategory.BUILDING_BLOCKS, ItemRegistry.CHARRED_MARSHMALLOW_PILE, 0.1f, 100)
+                .group("roasted:marshmallow_pile")
+                .unlockedBy("has_marshmallow", InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.MARSHMALLOW))
+                .save(exporter);
     }
 
     private void smoreRecipe(ItemLike result, ItemLike marshmallowStick, int minRoast, int maxRoast, Consumer<FinishedRecipe> exporter) {
