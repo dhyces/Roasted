@@ -19,12 +19,14 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) implements CustomIngredient {
     public static final Codec<RoastedIngredient> CODEC = RecordCodecBuilder.create(instance ->
@@ -41,10 +43,13 @@ public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) impl
     public static final Serializer SERIALIZER = new Serializer();
 
     private static ItemStack eitherToStack(Either<ItemStack, Item> either) {
+        either.ifLeft(itemStack -> {if (itemStack.isEmpty()) throw new JsonParseException("Element 'item' must have a non-air value");});
+        either.ifRight(item -> {if (item == Items.AIR) throw new JsonParseException("Element 'item' must have a non-air value");});
         return either.left().isPresent() ? either.left().get() : new ItemStack(either.right().get());
     }
 
     private static Either<ItemStack, Item> stackToEither(ItemStack itemStack) {
+        if (itemStack.isEmpty()) throw new IllegalStateException("ItemStack must not be EMPTY");
         return itemStack.getCount() > 1 || itemStack.hasTag() ? Either.left(itemStack) : Either.right(itemStack.getItem());
     }
 
