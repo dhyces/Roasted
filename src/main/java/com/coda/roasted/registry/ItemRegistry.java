@@ -54,7 +54,7 @@ public class ItemRegistry {
         entries.accept(PERFECT_SMORE);
         entries.accept(BURNT_SMORE);
         entries.accept(CHARRED_SMORE);
-        
+
         entries.accept(MARSHMALLOW_PILE);
         entries.accept(WARM_MARSHMALLOW_PILE);
         entries.accept(PERFECT_MARSHMALLOW_PILE);

@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredient;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -70,7 +71,13 @@ public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) impl
 
     @Override
     public List<ItemStack> getMatchingStacks() {
-        return List.of(new ItemStack(ItemRegistry.MARSHMALLOW_STICK));
+        var stack = item;
+        if (minRoast != 0) {
+            var tag = new CompoundTag();
+            tag.putInt("Roastedness", minRoast);
+            stack.setTag(tag);
+        }
+        return List.of(item);
     }
 
     @Override
