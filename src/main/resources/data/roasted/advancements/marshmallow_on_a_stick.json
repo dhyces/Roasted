@@ -1,8 +1,10 @@
 {
   "display": {
     "icon": {
-      "item": "roasted:marshmallow_on_a_stick",
-      "nbt": "{Roastedness:17}"
+      "id": "roasted:marshmallow_on_a_stick",
+      "components": {
+        "roasted:roastedness": 17
+      }
     },
     "title": {
       "translate": "roasted.roasted_marshmallow.title"

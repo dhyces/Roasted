@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "roasted:marshmallow"
-            ]
+            "items": "roasted:marshmallow"
           }
         ]
       },
@@ -22,8 +20,8 @@
   },
   "requirements": [
     [
-      "has_marshmallow",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_marshmallow"
     ]
   ],
   "rewards": {

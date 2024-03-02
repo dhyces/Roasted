@@ -5,6 +5,7 @@ import com.coda.roasted.recipe.RoastedIngredient;
 import com.coda.roasted.registry.BlockRegistry;
 import com.coda.roasted.registry.ItemRegistry;
 import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
@@ -20,17 +21,18 @@ import org.apache.logging.log4j.Logger;
 import java.util.Map;
 
 public class Roasted implements ModInitializer {
-
     public static final String MODID = "roasted";
+    public static ResourceLocation id(String id) {
+        return new ResourceLocation(MODID, id);
+    }
     public static final Logger LOGGER = LogManager.getLogger(Roasted.class);
-    private static final Map<Block, Item> CAMPFIRE_MUTATE_PRE = Maps.newHashMap();
+    private static final Map<Block, Item> CAMPFIRE_MUTATE_PRE = new Reference2ObjectOpenHashMap<>();
 
     @Override
     public void onInitialize() {
         BlockRegistry.init();
         ItemRegistry.init();
         registerCampfireMutations();
-        ItemGroupEvents.modifyEntriesEvent(ItemRegistry.GROUP).register(ItemRegistry::addToTab);
         CustomIngredientSerializer.register(RoastedIngredient.SERIALIZER);
     }
 
@@ -43,5 +45,5 @@ public class Roasted implements ModInitializer {
         return CAMPFIRE_MUTATE_PRE.put(block, item);
     }
 
-    public static final TagKey<Block> SOUL_CAMPFIRES = TagKey.create(Registries.BLOCK, new ResourceLocation(MODID, "soul_campfires"));
+    public static final TagKey<Block> SOUL_CAMPFIRES = TagKey.create(Registries.BLOCK, id("soul_campfires"));
 }

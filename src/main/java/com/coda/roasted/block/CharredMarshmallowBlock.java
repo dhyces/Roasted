@@ -21,7 +21,7 @@ public class CharredMarshmallowBlock extends Block {
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
         super.stepOn(level, pos, state, entity);
         if (!entity.fireImmune() && entity instanceof LivingEntity living && !EnchantmentHelper.hasFrostWalker(living)) {
-            living.hurt(DamageSource.HOT_FLOOR, 1.0F);
+            living.hurt(level.damageSources().hotFloor(), 1.0F);
         }
     }
 

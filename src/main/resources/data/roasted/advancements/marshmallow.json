@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "roasted:marshmallow"
+      "id": "roasted:marshmallow"
     },
     "title": {
       "translate": "roasted.marshmallow.title"

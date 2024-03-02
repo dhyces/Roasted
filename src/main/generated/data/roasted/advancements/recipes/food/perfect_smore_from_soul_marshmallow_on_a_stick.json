@@ -5,10 +5,10 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "roasted:soul_marshmallow_on_a_stick"
-            ],
-            "nbt": "{Roastedness:15}"
+            "components": {
+              "roasted:roastedness": 15
+            },
+            "items": "roasted:soul_marshmallow_on_a_stick"
           }
         ]
       },
@@ -23,8 +23,8 @@
   },
   "requirements": [
     [
-      "has_marshmallow_on_a_stick",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_marshmallow_on_a_stick"
     ]
   ],
   "rewards": {

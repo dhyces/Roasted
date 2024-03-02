@@ -1,57 +1,42 @@
 package com.coda.roasted.recipe;
 
 import com.coda.roasted.Roasted;
-import com.coda.roasted.item.MarshmallowOnAStickItem;
-import com.coda.roasted.registry.ItemRegistry;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.coda.roasted.registry.DataComponentRegistry;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredient;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
-import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.function.Function;
 
 public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) implements CustomIngredient {
     public static final Codec<RoastedIngredient> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                     Codec.either(
-                            ItemStack.CODEC,
+                            ItemStack.SIMPLE_ITEM_CODEC,
                             BuiltInRegistries.ITEM.byNameCodec()
-                    ).xmap(RoastedIngredient::eitherToStack, RoastedIngredient::stackToEither).fieldOf("item").forGetter(RoastedIngredient::item),
+                    ).xmap(
+                            either -> either.map(Function.identity(), ItemStack::new),
+                            stack -> stack.has(DataComponentRegistry.ROASTEDNESS) ? Either.left(stack) : Either.right(stack.getItem())
+                    ).fieldOf("item").forGetter(RoastedIngredient::item),
                     Codec.INT.fieldOf("min_roast").forGetter(RoastedIngredient::minRoast),
                     Codec.INT.fieldOf("max_roast").forGetter(RoastedIngredient::maxRoast)
             ).apply(instance, RoastedIngredient::new)
     );
+    public static final StreamCodec<RegistryFriendlyByteBuf, RoastedIngredient> STREAM_CODEC = StreamCodec.composite(ItemStack.STREAM_CODEC, RoastedIngredient::item, ByteBufCodecs.VAR_INT, RoastedIngredient::minRoast, ByteBufCodecs.VAR_INT, RoastedIngredient::maxRoast, RoastedIngredient::new);
 
     public static final Serializer SERIALIZER = new Serializer();
-
-    private static ItemStack eitherToStack(Either<ItemStack, Item> either) {
-        either.ifLeft(itemStack -> {if (itemStack.isEmpty()) throw new JsonParseException("Element 'item' must have a non-air value");});
-        either.ifRight(item -> {if (item == Items.AIR) throw new JsonParseException("Element 'item' must have a non-air value");});
-        return either.left().isPresent() ? either.left().get() : new ItemStack(either.right().get());
-    }
-
-    private static Either<ItemStack, Item> stackToEither(ItemStack itemStack) {
-        if (itemStack.isEmpty()) throw new IllegalStateException("ItemStack must not be EMPTY");
-        return itemStack.getCount() > 1 || itemStack.hasTag() ? Either.left(itemStack) : Either.right(itemStack.getItem());
-    }
 
     public static Ingredient createVanilla(ItemStack item, int minRoast, int maxRoast) {
         return new RoastedIngredient(item, minRoast, maxRoast).toVanilla();
@@ -68,9 +53,9 @@ public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) impl
     }
 
     private boolean isValidRoastedness(ItemStack stack) {
-        if (!stack.hasTag())
+        if (!stack.has(DataComponentRegistry.ROASTEDNESS))
             return minRoast == 0;
-        int roastedness = stack.getTag().getInt(MarshmallowOnAStickItem.ROASTEDNESS_TAG);
+        int roastedness = stack.get(DataComponentRegistry.ROASTEDNESS);
         return roastedness >= minRoast && roastedness < maxRoast;
     }
 
@@ -78,9 +63,7 @@ public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) impl
     public List<ItemStack> getMatchingStacks() {
         var stack = item;
         if (minRoast != 0) {
-            var tag = new CompoundTag();
-            tag.putInt("Roastedness", minRoast);
-            stack.setTag(tag);
+            stack.set(DataComponentRegistry.ROASTEDNESS, minRoast);
         }
         return List.of(item);
     }
@@ -96,7 +79,7 @@ public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) impl
     }
 
     public static class Serializer implements CustomIngredientSerializer<RoastedIngredient> {
-        public static final ResourceLocation ID = new ResourceLocation(Roasted.MODID, "roasted");
+        public static final ResourceLocation ID = Roasted.id("roasted");
 
         @Override
         public ResourceLocation getIdentifier() {
@@ -104,29 +87,13 @@ public record RoastedIngredient(ItemStack item, int minRoast, int maxRoast) impl
         }
 
         @Override
-        public RoastedIngredient read(JsonObject json) {
-            return Util.getOrThrow(CODEC.parse(JsonOps.INSTANCE, json), JsonParseException::new);
+        public Codec<RoastedIngredient> getCodec(boolean allowEmpty) {
+            return CODEC;
         }
 
         @Override
-        public void write(JsonObject json, RoastedIngredient ingredient) {
-            if (CODEC.encodeStart(JsonOps.INSTANCE, ingredient).getOrThrow(false, Roasted.LOGGER::error) instanceof JsonObject obj) {
-                for (Map.Entry<String, JsonElement> entry : obj.asMap().entrySet()) {
-                    json.add(entry.getKey(), entry.getValue());
-                }
-            }
-        }
-
-        @Override
-        public RoastedIngredient read(FriendlyByteBuf buf) {
-            return new RoastedIngredient(buf.readItem(), buf.readInt(), buf.readInt());
-        }
-
-        @Override
-        public void write(FriendlyByteBuf buffer, RoastedIngredient ingredient) {
-            buffer.writeItem(ingredient.item);
-            buffer.writeInt(ingredient.minRoast);
-            buffer.writeInt(ingredient.maxRoast);
+        public StreamCodec<RegistryFriendlyByteBuf, RoastedIngredient> getPacketCodec() {
+            return STREAM_CODEC;
         }
     }
 }

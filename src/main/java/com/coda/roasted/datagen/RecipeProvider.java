@@ -1,29 +1,33 @@
 package com.coda.roasted.datagen;
 
+import com.coda.roasted.item.components.RoastInfo;
 import com.coda.roasted.recipe.RoastedIngredient;
+import com.coda.roasted.registry.DataComponentRegistry;
 import com.coda.roasted.registry.ItemRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.*;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
 
 import static net.minecraft.data.recipes.SimpleCookingRecipeBuilder.campfireCooking;
 
 public class RecipeProvider extends FabricRecipeProvider {
-    public RecipeProvider(FabricDataOutput output) {
-        super(output);
+    public RecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(output, registriesFuture);
     }
 
     @Override
-    public void buildRecipes(Consumer<FinishedRecipe> exporter) {
+    public void buildRecipes(RecipeOutput exporter) {
         ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ItemRegistry.MARSHMALLOW)
                 .pattern("###")
                 .pattern("# #")
@@ -71,7 +75,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .save(exporter);
     }
 
-    private void smoreRecipe(ItemLike result, ItemLike marshmallowStick, int minRoast, int maxRoast, Consumer<FinishedRecipe> exporter) {
+    private void smoreRecipe(ItemLike result, ItemLike marshmallowStick, int minRoast, int maxRoast, RecipeOutput exporter) {
         ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, result)
                 .pattern("C")
                 .pattern("M")
@@ -83,9 +87,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .save(exporter, BuiltInRegistries.ITEM.getKey(result.asItem()) + "_from_" + BuiltInRegistries.ITEM.getKey(marshmallowStick.asItem()).getPath());
     }
 
-    private InventoryChangeTrigger.TriggerInstance minRoastTrigger(ItemLike item, int min) {
-        var tag = new CompoundTag();
-        tag.putInt("Roastedness", min);
-        return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(item).hasNbt(tag).build());
+    private Criterion<InventoryChangeTrigger.TriggerInstance> minRoastTrigger(ItemLike item, int min) {
+        return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(item).hasComponents(DataComponentPredicate.builder().expect(DataComponentRegistry.ROASTEDNESS, min).build()).build());
     }
 }
